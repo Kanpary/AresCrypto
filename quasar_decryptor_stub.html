@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuasarProtect Decryptor - Em Desenvolvimento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 70px rgba(79, 70, 229, 0.4);
+            max-width: 600px;
+            width: 100%;
+            border: 3px solid #4f46e5;
+            text-align: center;
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            font-size: 36px;
+            font-weight: 900;
+        }
+
+        .status-badge {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .info-box {
+            background: #eef2ff;
+            border-left: 4px solid #4f46e5;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .info-box h3 {
+            color: #312e81;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-box li {
+            padding: 8px 0;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .info-box li:before {
+            content: "🔓 ";
+            color: #4f46e5;
+        }
+
+        .roadmap {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .roadmap h3 {
+            color: #312e81;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .roadmap-item {
+            padding: 10px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 8px;
+            border-left: 3px solid #7c3aed;
+        }
+
+        .roadmap-item strong {
+            color: #4f46e5;
+        }
+
+        .stub-notice {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .stub-notice strong {
+            color: #d97706;
+            font-size: 16px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔓 QuasarProtect Decryptor</h1>
+        
+        <div class="status-badge">
+            🚧 EM DESENVOLVIMENTO 🚧
+        </div>
+
+        <div class="info-box">
+            <h3>📋 Funcionalidades Planejadas:</h3>
+            <ul>
+                <li>Descriptografia reversa das 15 camadas</li>
+                <li>Validação de senha mestra</li>
+                <li>Verificação de integridade SHA3-512</li>
+                <li>Suporte para todos os formatos (APK, ZIP, PNG, JPG, PDF, TXT)</li>
+                <li>Detecção automática de marcador QPAV</li>
+                <li>Extração de Salt, IV e Nonce</li>
+                <li>Reversão de todas as transformações</li>
+                <li>Interface drag-and-drop</li>
+            </ul>
+        </div>
+
+        <div class="roadmap">
+            <h3>🗺️ Roadmap de Implementação:</h3>
+            
+            <div class="roadmap-item">
+                <strong>Fase 1:</strong> Parsing e validação de estrutura
+                <br>- Detectar marcador QPAV
+                <br>- Extrair Salt, IV, Nonce
+                <br>- Validar tamanho mínimo
+            </div>
+
+            <div class="roadmap-item">
+                <strong>Fase 2:</strong> Reversão de camadas criptográficas
+                <br>- Reverter Cellular Automata (inverso)
+                <br>- Reverter Lattice Obfuscation (inverso)
+                <br>- Reverter DNA Encoding (decode)
+                <br>- Descriptografar Twofish-256
+                <br>- Descriptografar Serpent-256
+                <br>- Descriptografar ChaCha20
+            </div>
+
+            <div class="roadmap-item">
+                <strong>Fase 3:</strong> Reversão de ofuscação
+                <br>- Reverter Code Morphing (inverso)
+                <br>- Reverter Bit-Shifting (rotação oposta)
+                <br>- Reverter Feistel Network (ordem inversa)
+                <br>- Descriptografar AES-256-GCM
+            </div>
+
+            <div class="roadmap-item">
+                <strong>Fase 4:</strong> Finalização
+                <br>- Reverter S-Box Multi-Round (inverso)
+                <br>- Reverter Transposição (permutação inversa)
+                <br>- Reverter XOR Polimórfico (re-aplicar XOR)
+                <br>- Validar integridade SHA3-512
+            </div>
+
+            <div class="roadmap-item">
+                <strong>Fase 5:</strong> Interface e UX
+                <br>- Interface visual completa
+                <br>- Barra de progresso por camada
+                <br>- Mensagens de erro detalhadas
+                <br>- Download automático do arquivo original
+            </div>
+        </div>
+
+        <div class="stub-notice">
+            <strong>⚠️ Nota Importante:</strong>
+            <p style="margin-top: 10px; line-height: 1.6;">
+                O descriptografador está em desenvolvimento ativo. A reversão das 15 camadas 
+                requer implementação cuidadosa de cada algoritmo inverso. Cada camada deve ser 
+                revertida na ordem exata oposta à criptografia, usando os mesmos seeds e chaves 
+                derivadas da senha mestra.
+            </p>
+            <p style="margin-top: 10px; line-height: 1.6;">
+                Para descriptografar arquivos agora, você precisará implementar manualmente a 
+                reversão de cada camada ou aguardar a versão completa do descriptografador.
+            </p>
+        </div>
+
+        <a href="index.html" class="btn">← Voltar para o Encryptor</a>
+
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e5e7eb;">
+            <h3 style="color: #312e81; margin-bottom: 10px;">🔬 Considerações Técnicas:</h3>
+            <p style="color: #666; font-size: 14px; line-height: 1.6;">
+                Cada camada de criptografia foi projetada para ser matematicamente reversível:
+            </p>
+            <ul style="list-style: none; padding: 15px 0; text-align: left; color: #666; font-size: 13px;">
+                <li>✓ XOR é auto-reversível (A ⊕ B ⊕ B = A)</li>
+                <li>✓ Permutações têm inversas conhecidas</li>
+                <li>✓ S-Boxes podem gerar inverse S-boxes</li>
+                <li>✓ AES/ChaCha/Serpent/Twofish têm modos de descriptografia</li>
+                <li>✓ Feistel Networks são simétricos por design</li>
+                <li>✓ Rotações de bits podem ser revertidas</li>
+                <li>✓ DNA encoding tem mapeamento inverso</li>
+                <li>✓ Cellular Automata pode ser executado em reverso</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // ===== STUB: Funções de Descriptografia Futuras =====
+        
+        /*
+         * Função principal de descriptografia (a ser implementada)
+         * 
+         * @param {Uint8Array} encryptedData - Dados criptografados completos
+         * @param {string} password - Senha mestra do usuário
+         * @param {string} seed - Seed original (nome do arquivo)
+         * @returns {Uint8Array} - Dados descriptografados
+         */
+        async function decryptQuasarProtect(encryptedData, password, seed) {
+            // TODO: Implementar
+            // 1. Validar marcador QPAV
+            // 2. Extrair Salt, IV, Nonce
+            // 3. Reverter camada 13 (Cellular Automata)
+            // 4. Reverter camada 12 (Lattice Obfuscation)
+            // 5. Reverter camada 11 (DNA Encoding)
+            // 6. Descriptografar camada 10 (Twofish-256)
+            // 7. Descriptografar camada 9 (Serpent-256)
+            // 8. Descriptografar camada 8 (ChaCha20)
+            // 9. Reverter camada 7 (Code Morphing)
+            // 10. Reverter camada 6 (Bit-Shifting)
+            // 11. Reverter camada 5 (Feistel Network)
+            // 12. Descriptografar camada 4 (AES-256-GCM)
+            // 13. Reverter camada 3 (S-Box Multi-Round)
+            // 14. Reverter camada 2 (Transposição)
+            // 15. Reverter camada 1 (XOR Polimórfico)
+            // 16. Validar hash SHA3-512
+            
+            throw new Error('Descriptografia ainda não implementada');
+        }
+
+        /*
+         * Validar estrutura do arquivo criptografado
+         */
+        function validateEncryptedStructure(data) {
+            // TODO: Verificar marcador QPAV
+            // TODO: Verificar tamanho mínimo (marcador + salt + iv + nonce + dados)
+            return false;
+        }
+
+        /*
+         * Extrair metadados (Salt, IV, Nonce)
+         */
+        function extractMetadata(data) {
+            // TODO: Implementar extração
+            return {
+                salt: null,
+                iv: null,
+                nonce: null,
+                encryptedData: null
+            };
+        }
+
+        /*
+         * Reverter Cellular Automata (Camada 13)
+         */
+        function reverseCellularAutomata(data, seed, generations) {
+            // TODO: Implementar evolução reversa
+            return data;
+        }
+
+        /*
+         * Reverter Lattice Obfuscation (Camada 12)
+         */
+        function reverseLatticeObfuscation(data, seed) {
+            // TODO: Implementar matriz inversa
+            return data;
+        }
+
+        /*
+         * Reverter DNA Encoding (Camada 11)
+         */
+        function reverseDNAEncoding(data, seed) {
+            // TODO: Implementar decodificação ACTG → bytes
+            return data;
+        }
+
+        // ... Outras funções de reversão ...
+
+        console.log('🔓 QuasarProtect Decryptor Stub carregado');
+        console.log('🚧 Descriptografia em desenvolvimento');
+        console.log('📝 Implementação das 15 camadas reversas pendente');
+    </script>
+</body>
+</html>
