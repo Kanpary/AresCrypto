@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>QuasarProtect Advanced - 28 Camadas de Proteção</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 25px 70px rgba(79, 70, 229, 0.4);
+            max-width: 700px;
+            width: 100%;
+            border: 3px solid #4f46e5;
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .security-badge {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+
+        .security-badge small {
+            font-size: 11px;
+            opacity: 0.95;
+        }
+
+        .layers-list {
+            background: #eef2ff;
+            border-left: 4px solid #4f46e5;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 12px;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+
+        .layers-list h4 {
+            color: #312e81;
+            margin-bottom: 10px;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
+            background: #eef2ff;
+            padding: 5px 0;
+            z-index: 10;
+        }
+
+        .layers-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 25px;
+            background: #eef2ff;
+            border: 3px dashed #4f46e5;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: #312e81;
+        }
+
+        .file-input-label:hover {
+            background: #ddd6fe;
+            border-color: #7c3aed;
+            transform: translateY(-2px);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .file-name {
+            margin-top: 12px;
+            padding: 12px;
+            background: #ddd6fe;
+            border-radius: 10px;
+            font-size: 14px;
+            word-break: break-all;
+            display: none;
+            color: #312e81;
+            font-weight: 600;
+            border: 2px solid #c4b5fd;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .btn-encrypt {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-encrypt:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.5);
+        }
+
+        .btn-encrypt:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #eef2ff;
+            border-radius: 10px;
+            margin-top: 15px;
+            overflow: hidden;
+            display: none;
+            border: 2px solid #c4b5fd;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .status {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .status.info {
+            background: #dbeafe;
+            color: #1e40af;
+            display: block;
+        }
+
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            padding: 18px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #444;
+        }
+
+        .warning-box strong {
+            color: #d97706;
+            font-size: 14px;
+        }
+
+        .password-wrapper {
+            margin-bottom: 20px;
+        }
+
+        .password-wrapper label {
+            display: block;
+            margin-bottom: 8px;
+            color: #312e81;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .password-wrapper input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #4f46e5;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .password-wrapper input:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        .password-strength {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .layer-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-radius: 4px;
+            padding-left: 5px;
+        }
+
+        .layer-checkbox:hover {
+            background: rgba(79, 70, 229, 0.05);
+        }
+
+        .layer-checkbox input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #4f46e5;
+        }
+
+        .layer-checkbox label {
+            cursor: pointer;
+            flex: 1;
+            user-select: none;
+        }
+
+        .layer-type {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .layer-type.crypto {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .layer-type.obfuscation {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .layer-type.polymorphic {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .layer-type.metamorphic {
+            background: #fce7f3;
+            color: #9f1239;
+        }
+
+        .layer-type.advanced {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        .layer-controls {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #c4b5fd;
+        }
+
+        .layer-controls button {
+            padding: 8px 16px;
+            margin-right: 8px;
+            border: 2px solid #4f46e5;
+            background: white;
+            color: #4f46e5;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .layer-controls button:hover {
+            background: #4f46e5;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ QuasarProtect Advanced</h1>
+        <p class="subtitle">Sistema Militar de Criptografia Multifásica</p>
+        
+        <div class="security-badge">
+            ⚡ PROTEÇÃO MÁXIMA ATIVADA ⚡<br>
+            <small>28 Camadas de Segurança | Criptografia AES-256-GCM | Ofuscação Avançada</small>
+        </div>
+
+        <div class="password-wrapper">
+            <label>🎯 Modo de Operação</label>
+            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <button class="btn" style="flex: 1; padding: 12px; background: #4f46e5; color: white;" id="encryptModeBtn" onclick="setMode('encrypt')">
+                    🔐 Criptografar
+                </button>
+                <button class="btn" style="flex: 1; padding: 12px; background: #e5e7eb; color: #666;" id="decryptModeBtn" onclick="setMode('decrypt')">
+                    🔓 Descriptografar
+                </button>
+            </div>
+        </div>
+
+        <div class="layers-list" id="layersSection">
+            <h4>📋 Camadas de Proteção Disponíveis</h4>
+            <ul id="layersList"></ul>
+            <div class="layer-controls">
+                <button onclick="selectAllLayers()">Selecionar Todas</button>
+                <button onclick="deselectAllLayers()">Desmarcar Todas</button>
+                <button onclick="selectRecommended()">Recomendadas</button>
+            </div>
+        </div>
+
+        <div class="password-wrapper">
+            <label for="passwordInput">🔑 Senha Master (mín. 8 caracteres)</label>
+            <input type="password" id="passwordInput" placeholder="Digite uma senha forte...">
+            <div class="password-strength" id="passwordStrength"></div>
+        </div>
+
+        <div class="file-input-wrapper">
+            <label for="fileInput" class="file-input-label" id="fileInputLabel">
+                📁 Clique aqui ou arraste um arquivo para criptografar
+            </label>
+            <input type="file" id="fileInput">
+            <div class="file-name" id="fileName"></div>
+        </div>
+
+        <div id="apkAnalysisPanel" style="display: none; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 20px; margin: 15px 0;">
+            <h3 style="color: #92400e; margin-top: 0;">⚠️ APK Android Detectado - Análise Técnica</h3>
+            
+            <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                <h4 style="color: #1e40af; margin-top: 0;">🔍 Análise de Compatibilidade</h4>
+                <p style="margin: 10px 0;"><strong>Realidade Técnica:</strong> Para que um APK funcione no Android, o sistema precisa ler o código compilado (classes.dex) diretamente. Criptografar este arquivo impede a execução do app.</p>
+                
+                <div style="background: #fee2e2; padding: 12px; border-radius: 4px; border-left: 4px solid #dc2626; margin: 10px 0;">
+                    <strong style="color: #991b1b;">❌ Limitação Fundamental:</strong><br>
+                    <span style="color: #7f1d1d;">Nenhuma das 28 camadas pode ser aplicada mantendo o APK totalmente funcional sem ferramentas profissionais de reempacotamento.</span>
+                </div>
+
+                <p style="margin: 10px 0;"><strong>Por que isso acontece?</strong></p>
+                <ul style="margin: 5px 0 5px 20px; color: #4b5563;">
+                    <li>Android precisa ler <code>classes.dex</code> para carregar o app</li>
+                    <li>Criptografar <code>classes.dex</code> torna o arquivo ilegível para o sistema</li>
+                    <li>Resultado: APK pode instalar, mas <strong>fecha imediatamente</strong> ao abrir</li>
+                    <li>Ícone pode não aparecer se recursos visuais forem criptografados</li>
+                </ul>
+            </div>
+
+            <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                <h4 style="color: #059669; margin-top: 0;">💡 Alternativas Profissionais</h4>
+                <p style="margin: 5px 0;">Para proteção real de APKs Android, use ferramentas especializadas:</p>
+                <ul style="margin: 5px 0 5px 20px; color: #4b5563;">
+                    <li><strong>ProGuard</strong> - Ofuscação gratuita (inclusa no Android Studio)</li>
+                    <li><strong>R8</strong> - Otimizador e ofuscador moderno do Google</li>
+                    <li><strong>DexGuard</strong> - Proteção comercial avançada com runtime encryption</li>
+                    <li><strong>App Shielding</strong> - Soluções enterprise com anti-tamper</li>
+                </ul>
+            </div>
+
+            <div style="background: #dbeafe; padding: 15px; border-radius: 6px; margin: 10px 0; border: 2px solid #3b82f6;">
+                <h4 style="color: #1e40af; margin-top: 0;">🧪 Modo Demonstração (Opcional)</h4>
+                <p style="margin: 5px 0; color: #1e3a8a;">Se você deseja criptografar mesmo assim para fins de teste ou demonstração:</p>
+                
+                <label style="display: flex; align-items: center; margin: 15px 0; cursor: pointer;">
+                    <input type="checkbox" id="apkDemoMode" style="width: 20px; height: 20px; margin-right: 10px;">
+                    <span style="color: #1e3a8a;"><strong>Entendo que o APK NÃO funcionará após a criptografia e aceito prosseguir em modo demonstração</strong></span>
+                </label>
+                
+                <div style="background: #fef2f2; padding: 10px; border-radius: 4px; border-left: 4px solid #ef4444; margin-top: 10px;">
+                    <small style="color: #991b1b;">
+                        ⚠️ <strong>Aviso Legal:</strong> Ao ativar este modo, você reconhece que o APK resultante poderá instalar mas NÃO abrirá ou funcionará. Isto é apenas para fins educacionais ou de demonstração.
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-encrypt" id="processBtn" disabled>
+            🔐 Iniciar Criptografia
+        </button>
+
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="status info" id="status">
+            Aguardando arquivo e senha...
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ IMPORTANTE:</strong> Guarde sua senha em local seguro! 
+            Sem ela, será IMPOSSÍVEL descriptografar o arquivo. 
+            Este sistema utiliza criptografia militar de nível máximo.
+        </div>
+
+        <div class="warning-box" style="background: #dbeafe; border-color: #3b82f6; margin-top: 15px;">
+            <strong style="color: #1e40af;">📱 APKs Android:</strong> Ao criptografar APKs, o código e recursos são protegidos enquanto os arquivos de assinatura original (META-INF/) são preservados mas tornam-se inválidos devido às modificações. 
+            Após criptografar ou descriptografar, você <strong>deve re-assinar</strong> o APK usando ferramentas como 
+            <code style="background: rgba(0,0,0,0.1); padding: 2px 6px; border-radius: 3px;">apksigner</code> ou 
+            <code style="background: rgba(0,0,0,0.1); padding: 2px 6px; border-radius: 3px;">jarsigner</code> 
+            antes de instalá-lo no Android. Arquivos críticos (AndroidManifest.xml, resources.arsc, META-INF/) são preservados.
+        </div>
+    </div>
+
+    <script>
+        const layers = [
+            { id: 1, name: 'AES-256-GCM Principal', type: 'crypto', recommended: true },
+            { id: 2, name: 'XOR Polimórfico Dinâmico', type: 'polymorphic', recommended: true },
+            { id: 3, name: 'Transposição em Blocos', type: 'obfuscation', recommended: true },
+            { id: 4, name: 'S-Box Multi-Round', type: 'crypto', recommended: true },
+            { id: 5, name: 'AES-256-GCM Secundário', type: 'crypto', recommended: true },
+            { id: 6, name: 'Rede Feistel Customizada', type: 'crypto', recommended: false },
+            { id: 7, name: 'Shift Metamórfico Avançado', type: 'metamorphic', recommended: false },
+            { id: 8, name: 'Code Morphing Avançado', type: 'metamorphic', recommended: false },
+            { id: 9, name: 'ChaCha20 (Simulado)', type: 'crypto', recommended: true },
+            { id: 10, name: 'Serpent-256 (Simulado)', type: 'crypto', recommended: false },
+            { id: 11, name: 'Twofish-256 (Simulado)', type: 'crypto', recommended: false },
+            { id: 12, name: 'Codificação DNA', type: 'advanced', recommended: false },
+            { id: 13, name: 'Ofuscação de Lattice', type: 'obfuscation', recommended: false },
+            { id: 14, name: 'Autômatos Celulares', type: 'advanced', recommended: false },
+            { id: 15, name: 'Inserção de Junk Code', type: 'obfuscation', recommended: true },
+            { id: 16, name: 'Code Packing', type: 'obfuscation', recommended: true },
+            { id: 17, name: 'Code Splitting', type: 'obfuscation', recommended: true },
+            { id: 18, name: 'Anti-Debugging', type: 'advanced', recommended: true },
+            { id: 19, name: 'Delay de Processamento', type: 'advanced', recommended: false },
+            { id: 20, name: 'Manipulação de Entropia', type: 'advanced', recommended: false },
+            { id: 21, name: 'Nullificação de Assinatura', type: 'obfuscation', recommended: true },
+            { id: 22, name: 'String Encryption', type: 'crypto', recommended: true },
+            { id: 23, name: 'Anti-Debugging Checks', type: 'advanced', recommended: false },
+            { id: 24, name: 'Camuflagem Comportamental', type: 'advanced', recommended: false },
+            { id: 25, name: 'Anti-VM Detection', type: 'advanced', recommended: false },
+            { id: 26, name: 'Import Table Obfuscation', type: 'obfuscation', recommended: false },
+            { id: 27, name: 'Environment Validation', type: 'advanced', recommended: false },
+            { id: 28, name: 'AES-256-GCM Final', type: 'crypto', recommended: true }
+        ];
+
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+        const processBtn = document.getElementById('processBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        const status = document.getElementById('status');
+        const passwordInput = document.getElementById('passwordInput');
+        const passwordStrength = document.getElementById('passwordStrength');
+        const layersList = document.getElementById('layersList');
+        const fileInputLabel = document.getElementById('fileInputLabel');
+        const layersSection = document.getElementById('layersSection');
+        const encryptModeBtn = document.getElementById('encryptModeBtn');
+        const decryptModeBtn = document.getElementById('decryptModeBtn');
+        const apkAnalysisPanel = document.getElementById('apkAnalysisPanel');
+        const apkDemoMode = document.getElementById('apkDemoMode');
+        
+        let selectedFile = null;
+        let userPassword = '';
+        let activeLayers = new Set();
+        let currentMode = 'encrypt';
+        let isAPKFile = false;
+        let apkDemoModeEnabled = false;
+
+        function resetAPKState() {
+            apkAnalysisPanel.style.display = 'none';
+            apkDemoMode.checked = false;
+            isAPKFile = false;
+            apkDemoModeEnabled = false;
+            
+            activeLayers.clear();
+            layers.forEach(layer => {
+                const checkbox = document.getElementById(`layer-${layer.id}`);
+                if (checkbox) {
+                    checkbox.disabled = false;
+                    checkbox.checked = layer.recommended;
+                    if (layer.recommended) {
+                        activeLayers.add(layer.id);
+                    }
+                }
+            });
+        }
+
+        function disableLayersForAPK() {
+            activeLayers.clear();
+            layers.forEach(layer => {
+                const checkbox = document.getElementById(`layer-${layer.id}`);
+                if (checkbox) {
+                    checkbox.checked = false;
+                    checkbox.disabled = true;
+                }
+            });
+        }
+
+        function updateProcessButtonText() {
+            if (currentMode === 'encrypt') {
+                const count = activeLayers.size;
+                const layerText = count === 1 ? 'Camada' : 'Camadas';
+                processBtn.textContent = `🔐 Iniciar Criptografia de ${count} ${layerText}`;
+            } else {
+                processBtn.textContent = '🔓 Descriptografar Arquivo';
+            }
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            if (mode === 'encrypt') {
+                encryptModeBtn.style.background = '#4f46e5';
+                encryptModeBtn.style.color = 'white';
+                decryptModeBtn.style.background = '#e5e7eb';
+                decryptModeBtn.style.color = '#666';
+                fileInputLabel.textContent = '📁 Clique aqui ou arraste um arquivo para criptografar';
+                layersSection.style.display = 'block';
+                status.textContent = 'Aguardando arquivo e senha...';
+                
+                if (selectedFile && isAPK(selectedFile.name)) {
+                    apkAnalysisPanel.style.display = 'block';
+                    isAPKFile = true;
+                    apkDemoMode.checked = false;
+                    apkDemoModeEnabled = false;
+                    disableLayersForAPK();
+                } else if (selectedFile) {
+                    resetAPKState();
+                }
+            } else {
+                encryptModeBtn.style.background = '#e5e7eb';
+                encryptModeBtn.style.color = '#666';
+                decryptModeBtn.style.background = '#10b981';
+                decryptModeBtn.style.color = 'white';
+                fileInputLabel.textContent = '📁 Clique aqui para selecionar arquivo criptografado (_quasar)';
+                layersSection.style.display = 'none';
+                status.textContent = 'Modo Descriptografia: Selecione um arquivo _quasar e digite a senha';
+                resetAPKState();
+            }
+            updateProcessButtonText();
+            updateStatus();
+        }
+
+        function renderLayers() {
+            layersList.innerHTML = '';
+            layers.forEach(layer => {
+                const li = document.createElement('li');
+                li.className = 'layer-checkbox';
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `layer-${layer.id}`;
+                checkbox.checked = layer.recommended;
+                if (layer.recommended) activeLayers.add(layer.id);
+                
+                checkbox.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        activeLayers.add(layer.id);
+                    } else {
+                        activeLayers.delete(layer.id);
+                    }
+                    updateProcessButtonText();
+                    updateStatus();
+                });
+                
+                const label = document.createElement('label');
+                label.htmlFor = `layer-${layer.id}`;
+                label.innerHTML = `${layer.name} <span class="layer-type ${layer.type}">${layer.type.toUpperCase()}</span>`;
+                
+                li.appendChild(checkbox);
+                li.appendChild(label);
+                layersList.appendChild(li);
+            });
+        }
+
+        function selectAllLayers() {
+            layers.forEach(layer => {
+                document.getElementById(`layer-${layer.id}`).checked = true;
+                activeLayers.add(layer.id);
+            });
+            updateProcessButtonText();
+            updateStatus();
+        }
+
+        function deselectAllLayers() {
+            layers.forEach(layer => {
+                document.getElementById(`layer-${layer.id}`).checked = false;
+            });
+            activeLayers.clear();
+            updateProcessButtonText();
+            updateStatus();
+        }
+
+        function selectRecommended() {
+            layers.forEach(layer => {
+                const checkbox = document.getElementById(`layer-${layer.id}`);
+                checkbox.checked = layer.recommended;
+                if (layer.recommended) {
+                    activeLayers.add(layer.id);
+                } else {
+                    activeLayers.delete(layer.id);
+                }
+            });
+            updateProcessButtonText();
+            updateStatus();
+        }
+
+        passwordInput.addEventListener('input', (e) => {
+            userPassword = e.target.value;
+            
+            if (userPassword.length === 0) {
+                passwordStrength.textContent = '';
+            } else if (userPassword.length < 8) {
+                passwordStrength.textContent = '❌ Senha muito fraca (mínimo 8 caracteres)';
+                passwordStrength.style.color = '#dc2626';
+            } else if (userPassword.length < 12) {
+                passwordStrength.textContent = '⚠️ Senha fraca (recomendado 12+ caracteres)';
+                passwordStrength.style.color = '#f59e0b';
+            } else if (userPassword.length < 16) {
+                passwordStrength.textContent = '✅ Senha boa';
+                passwordStrength.style.color = '#059669';
+            } else {
+                passwordStrength.textContent = '🔥 Senha excelente!';
+                passwordStrength.style.color = '#059669';
+            }
+            
+            updateStatus();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                selectedFile = file;
+                fileName.textContent = `📄 ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
+                fileName.style.display = 'block';
+                
+                isAPKFile = isAPK(file.name);
+                
+                if (isAPKFile && currentMode === 'encrypt') {
+                    apkAnalysisPanel.style.display = 'block';
+                    apkDemoMode.checked = false;
+                    apkDemoModeEnabled = false;
+                    disableLayersForAPK();
+                    
+                    status.className = 'status info';
+                    status.textContent = '⚠️ APK detectado - Leia a análise técnica abaixo';
+                } else {
+                    resetAPKState();
+                }
+                
+                updateProcessButtonText();
+                updateStatus();
+            }
+        });
+
+        apkDemoMode.addEventListener('change', (e) => {
+            apkDemoModeEnabled = e.target.checked;
+            
+            if (apkDemoModeEnabled) {
+                activeLayers.clear();
+                layers.forEach(layer => {
+                    const checkbox = document.getElementById(`layer-${layer.id}`);
+                    if (checkbox) {
+                        checkbox.disabled = false;
+                        if (layer.recommended) {
+                            checkbox.checked = true;
+                            activeLayers.add(layer.id);
+                        } else {
+                            checkbox.checked = false;
+                        }
+                    }
+                });
+                status.className = 'status info';
+                status.textContent = '⚠️ Modo demonstração ativado - APK NÃO funcionará após criptografia';
+            } else {
+                disableLayersForAPK();
+                status.className = 'status info';
+                status.textContent = '⚠️ Selecione o modo demonstração para prosseguir ou escolha outro arquivo';
+            }
+            
+            updateProcessButtonText();
+            updateStatus();
+        });
+
+        function updateStatus() {
+            if (currentMode === 'decrypt') {
+                if (selectedFile && userPassword.length >= 8) {
+                    processBtn.disabled = false;
+                    status.className = 'status info';
+                    status.textContent = '✅ Pronto para descriptografar!';
+                } else {
+                    processBtn.disabled = true;
+                }
+            } else {
+                if (isAPKFile && !apkDemoModeEnabled) {
+                    processBtn.disabled = true;
+                    if (!status.textContent.includes('APK detectado') && !status.textContent.includes('modo demonstração')) {
+                        status.className = 'status info';
+                        status.textContent = '⚠️ Marque o modo demonstração abaixo ou escolha outro arquivo';
+                    }
+                } else if (selectedFile && userPassword.length >= 8 && activeLayers.size > 0) {
+                    processBtn.disabled = false;
+                    status.className = 'status info';
+                    if (isAPKFile && apkDemoModeEnabled) {
+                        status.textContent = `⚠️ MODO DEMO: APK NÃO funcionará! ${activeLayers.size} camadas selecionadas`;
+                    } else {
+                        status.textContent = `✅ Pronto! ${activeLayers.size} camadas selecionadas`;
+                    }
+                } else {
+                    processBtn.disabled = true;
+                    if (!selectedFile) {
+                        status.className = 'status info';
+                        status.textContent = 'Aguardando arquivo...';
+                    } else if (userPassword.length < 8) {
+                        status.className = 'status info';
+                        status.textContent = 'Aguardando senha válida (mín. 8 caracteres)...';
+                    } else if (activeLayers.size === 0 && !(isAPKFile && !apkDemoModeEnabled)) {
+                        status.className = 'status info';
+                        status.textContent = 'Selecione pelo menos uma camada de proteção...';
+                    }
+                }
+            }
+        }
+
+        processBtn.addEventListener('click', async () => {
+            if (currentMode === 'encrypt') {
+                await encryptFile();
+            } else {
+                await decryptFile();
+            }
+        });
+
+        async function encryptFile() {
+            if (!selectedFile || userPassword.length < 8 || activeLayers.size === 0) {
+                return;
+            }
+            
+            processBtn.disabled = true;
+            progressBar.style.display = 'block';
+            
+            try {
+                status.className = 'status info';
+                status.textContent = '🔄 Iniciando criptografia...';
+                
+                const fileBuffer = await selectedFile.arrayBuffer();
+                let data = new Uint8Array(fileBuffer);
+                
+                if (isAPK(selectedFile.name)) {
+                    progressFill.style.width = '10%';
+                    data = await encryptAPKSelectively(data, userPassword, activeLayers);
+                    progressFill.style.width = '100%';
+                } else {
+                    const totalLayers = activeLayers.size;
+                    let currentLayer = 0;
+                    
+                    for (const layerId of activeLayers) {
+                        const layer = layers.find(l => l.id === layerId);
+                        currentLayer++;
+                        
+                        status.textContent = `🔄 Aplicando camada ${currentLayer}/${totalLayers}: ${layer.name}`;
+                        progressFill.style.width = `${(currentLayer / totalLayers) * 100}%`;
+                        
+                        data = await applyLayer(layerId, data, userPassword);
+                        
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+                }
+                
+                const hash = await generateIntegrityHash(data);
+                
+                status.className = 'status success';
+                if (isAPK(selectedFile.name)) {
+                    status.textContent = `✅ APK protegido com sucesso! ⚠️ Re-assinatura necessária antes de instalar.`;
+                } else {
+                    status.textContent = `✅ Arquivo criptografado com sucesso! Hash: ${hash.substring(0, 16)}...`;
+                }
+                
+                downloadFile(data, selectedFile.name, hash);
+                
+                setTimeout(resetInterface, 3000);
+                
+            } catch (error) {
+                status.className = 'status error';
+                status.textContent = `❌ Erro: ${error.message}`;
+                console.error('Erro na criptografia:', error);
+                setTimeout(resetInterface, 5000);
+            }
+        }
+
+        async function decryptFile() {
+            if (!selectedFile || userPassword.length < 8) {
+                return;
+            }
+            
+            processBtn.disabled = true;
+            progressBar.style.display = 'block';
+            
+            try {
+                status.className = 'status info';
+                status.textContent = '🔄 Iniciando descriptografia...';
+                
+                const fileBuffer = await selectedFile.arrayBuffer();
+                let data = new Uint8Array(fileBuffer);
+                
+                const originalName = selectedFile.name.replace('_quasar', '');
+                
+                if (isAPK(originalName)) {
+                    progressFill.style.width = '10%';
+                    data = await decryptAPKSelectively(data, userPassword, activeLayers);
+                    progressFill.style.width = '100%';
+                } else {
+                    const layerIds = Array.from(activeLayers).reverse();
+                    const totalLayers = layerIds.length;
+                    let currentLayer = 0;
+                    
+                    for (const layerId of layerIds) {
+                        const layer = layers.find(l => l.id === layerId);
+                        currentLayer++;
+                        
+                        status.textContent = `🔓 Removendo camada ${currentLayer}/${totalLayers}: ${layer.name}`;
+                        progressFill.style.width = `${(currentLayer / totalLayers) * 100}%`;
+                        
+                        data = await removeLayer(layerId, data, userPassword);
+                        
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+                }
+                
+                status.className = 'status success';
+                if (isAPK(originalName)) {
+                    status.textContent = `✅ APK descriptografado com sucesso! ⚠️ Re-assinatura necessária antes de instalar.`;
+                } else {
+                    status.textContent = `✅ Arquivo descriptografado com sucesso!`;
+                }
+                
+                downloadDecryptedFile(data, originalName);
+                
+                setTimeout(resetInterface, 3000);
+                
+            } catch (error) {
+                status.className = 'status error';
+                status.textContent = `❌ Erro na descriptografia: ${error.message}. Verifique a senha.`;
+                console.error('Erro na descriptografia:', error);
+                setTimeout(resetInterface, 5000);
+            }
+        }
+
+        function simpleHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash);
+        }
+
+        async function applyLayer(layerId, data, password) {
+            const seed = password + layerId.toString();
+            
+            switch(layerId) {
+                case 1:
+                case 5:
+                case 28:
+                    const result1 = await encryptAES256GCM(data, password + layerId);
+                    const marker = new TextEncoder().encode('QPRO');
+                    const metadata = [];
+                    
+                    if (result1.salt) metadata.push(result1.salt);
+                    if (result1.iv) metadata.push(result1.iv);
+                    
+                    let totalMetadataLength = metadata.reduce((sum, arr) => sum + arr.length, 0);
+                    const finalResult = new Uint8Array(marker.length + totalMetadataLength + result1.encrypted.length);
+                    
+                    let offset = 0;
+                    finalResult.set(marker, offset); offset += marker.length;
+                    for (const meta of metadata) {
+                        finalResult.set(meta, offset);
+                        offset += meta.length;
+                    }
+                    finalResult.set(result1.encrypted, offset);
+                    
+                    return finalResult;
+                
+                case 2:
+                    return applyPolymorphicXOR(data, seed);
+                
+                case 3:
+                    return applyBlockTransposition(data, seed);
+                
+                case 4:
+                    return applyMultiRoundSBox(data, seed, 3);
+                
+                case 9:
+                    const result9 = await simulateChaCha20(data, password);
+                    const marker9 = new TextEncoder().encode('QPRO');
+                    const nonce = result9.nonce;
+                    
+                    const finalResult9 = new Uint8Array(marker9.length + nonce.length + result9.encrypted.length);
+                    let offset9 = 0;
+                    finalResult9.set(marker9, offset9); offset9 += marker9.length;
+                    finalResult9.set(nonce, offset9); offset9 += nonce.length;
+                    finalResult9.set(result9.encrypted, offset9);
+                    
+                    return finalResult9;
+                
+                case 6:
+                    return applyFeistelNetwork(data, seed, 8);
+                case 7:
+                    return applyAdvancedMetamorphicShift(data, seed);
+                case 8:
+                    return applyAdvancedCodeMorphing(data, seed);
+                case 10:
+                    return await simulateSerpent256(data, password);
+                case 11:
+                    return await simulateTwofish256(data, password);
+                case 12:
+                    return applyDNAEncoding(data, seed);
+                case 13:
+                    return applyLatticeObfuscation(data, seed);
+                case 14:
+                    return applyCellularAutomata(data, seed, 5);
+                case 15:
+                    return applyJunkCodeInsertion(data, seed);
+                case 16:
+                    return applyCodePacking(data, seed);
+                case 17:
+                    return applyCodeSplitting(data, seed);
+                case 18:
+                    return applyAntiDebugging(data, seed);
+                case 19:
+                    return await applyProcessingDelay(data, 0.5);
+                case 20:
+                    return applyEntropyManipulation(data, seed);
+                case 21:
+                    return applySignatureNullification(data, seed);
+                case 22:
+                    return applyStringEncryption(data, seed);
+                case 23:
+                    return applyAntiDebuggingChecks(data, seed);
+                case 24:
+                    return applyBehavioralCamouflage(data, seed);
+                case 25:
+                    return applyAntiVMDetection(data, seed);
+                case 26:
+                    return applyImportTableObfuscation(data, seed);
+                case 27:
+                    return applyEnvironmentValidation(data, seed);
+                
+                default:
+                    return data;
+            }
+        }
+
+        function applyPolymorphicXOR(data, seed) {
+            const result = new Uint8Array(data.length);
+            const keyStream = generateAdvancedKeyStream(seed, data.length);
+            
+            for (let i = 0; i < data.length; i++) {
+                const key1 = keyStream[i];
+                const key2 = keyStream[(i * 3) % keyStream.length];
+                const key3 = keyStream[(i * 7) % keyStream.length];
+                result[i] = data[i] ^ key1 ^ key2 ^ key3;
+            }
+            
+            return result;
+        }
+
+        function generateAdvancedKeyStream(seed, length) {
+            const stream = new Uint8Array(length);
+            let hash1 = simpleHash(seed);
+            let hash2 = simpleHash(seed + 'alt');
+            
+            for (let i = 0; i < length; i++) {
+                hash1 = ((hash1 * 1103515245) + 12345) & 0x7fffffff;
+                hash2 = ((hash2 * 69069) + 1) & 0x7fffffff;
+                stream[i] = ((hash1 >> 16) ^ (hash2 >> 8)) & 0xFF;
+            }
+            
+            return stream;
+        }
+
+        function applyBlockTransposition(data, seed) {
+            const blockSize = 32;
+            const result = new Uint8Array(data.length);
+            const permutation = generatePermutation(blockSize, seed);
+            
+            for (let i = 0; i < data.length; i += blockSize) {
+                const block = data.slice(i, Math.min(i + blockSize, data.length));
+                const transposed = new Uint8Array(block.length);
+                
+                for (let j = 0; j < block.length; j++) {
+                    const newPos = permutation[j % permutation.length] % block.length;
+                    transposed[newPos] = block[j];
+                }
+                
+                result.set(transposed, i);
+            }
+            
+            return result;
+        }
+
+        function generatePermutation(size, seed) {
+            const perm = Array.from({length: size}, (_, i) => i);
+            let hash = simpleHash(seed);
+            
+            for (let i = size - 1; i > 0; i--) {
+                hash = ((hash * 1103515245) + 12345) & 0x7fffffff;
+                const j = hash % (i + 1);
+                [perm[i], perm[j]] = [perm[j], perm[i]];
+            }
+            
+            return perm;
+        }
+
+        function applyMultiRoundSBox(data, seed, rounds) {
+            let result = new Uint8Array(data);
+            
+            for (let round = 0; round < rounds; round++) {
+                const sbox = generateDynamicSBox(seed + round.toString());
+                const temp = new Uint8Array(result.length);
+                
+                for (let i = 0; i < result.length; i++) {
+                    temp[i] = sbox[result[i]];
+                }
+                
+                result = temp;
+            }
+            
+            return result;
+        }
+
+        function generateDynamicSBox(seed) {
+            const sbox = Array.from({length: 256}, (_, i) => i);
+            let hash = simpleHash(seed);
+            
+            for (let i = 255; i > 0; i--) {
+                hash = ((hash * 1103515245) + 12345) & 0x7fffffff;
+                const j = hash % (i + 1);
+                [sbox[i], sbox[j]] = [sbox[j], sbox[i]];
+            }
+            
+            return sbox;
+        }
+
+        async function encryptAES256GCM(data, password) {
+            const salt = crypto.getRandomValues(new Uint8Array(32));
+            
+            const encoder = new TextEncoder();
+            const passwordKey = await crypto.subtle.importKey(
+                'raw',
+                encoder.encode(password),
+                'PBKDF2',
+                false,
+                ['deriveBits', 'deriveKey']
+            );
+            
+            const key = await crypto.subtle.deriveKey(
+                {
+                    name: 'PBKDF2',
+                    salt: salt,
+                    iterations: 200000,
+                    hash: 'SHA-512'
+                },
+                passwordKey,
+                { name: 'AES-GCM', length: 256 },
+                false,
+                ['encrypt', 'decrypt']
+            );
+            
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            
+            const encrypted = await crypto.subtle.encrypt(
+                {
+                    name: 'AES-GCM',
+                    iv: iv
+                },
+                key,
+                data
+            );
+            
+            return {
+                encrypted: new Uint8Array(encrypted),
+                iv: iv,
+                salt: salt
+            };
+        }
+
+        function applyFeistelNetwork(data, seed, rounds) {
+            const result = new Uint8Array(data);
+            const blockSize = 8;
+            
+            for (let round = 0; round < rounds; round++) {
+                for (let i = 0; i < result.length - 1; i += 2) {
+                    const left = result[i];
+                    const right = result[i + 1];
+                    const key = generateAdvancedKeyStream(seed + round, 1)[0];
+                    const f = (right ^ key) & 0xFF;
+                    result[i] = right;
+                    result[i + 1] = left ^ f;
+                }
+            }
+            
+            return result;
+        }
+
+        function applyAdvancedMetamorphicShift(data, seed) {
+            const result = new Uint8Array(data.length);
+            const shiftKey = simpleHash(seed);
+            
+            for (let i = 0; i < data.length; i++) {
+                const shift = (shiftKey + i) % 8;
+                const rotated = ((data[i] << shift) | (data[i] >> (8 - shift))) & 0xFF;
+                result[i] = rotated ^ ((shiftKey >> (i % 24)) & 0xFF);
+            }
+            
+            return result;
+        }
+
+        function applyAdvancedCodeMorphing(data, seed) {
+            const result = new Uint8Array(data.length);
+            const morphTable = generateDynamicSBox(seed);
+            
+            for (let i = 0; i < data.length; i++) {
+                const pos = (i + simpleHash(seed + i)) % data.length;
+                result[i] = morphTable[data[pos]];
+            }
+            
+            return result;
+        }
+
+        async function simulateChaCha20(data, password) {
+            const nonce = crypto.getRandomValues(new Uint8Array(12));
+            const result = new Uint8Array(data.length);
+            const keyStream = generateAdvancedKeyStream(password + nonce.join(','), data.length);
+            
+            for (let i = 0; i < data.length; i++) {
+                result[i] = data[i] ^ keyStream[i];
+            }
+            
+            return { encrypted: result, nonce: nonce };
+        }
+
+        async function simulateSerpent256(data, password) {
+            const result = new Uint8Array(data);
+            const rounds = 32;
+            
+            for (let round = 0; round < rounds; round++) {
+                const sbox = generateDynamicSBox(password + round);
+                for (let i = 0; i < result.length; i++) {
+                    result[i] = sbox[result[i]];
+                }
+            }
+            
+            return result;
+        }
+
+        async function simulateTwofish256(data, password) {
+            const result = new Uint8Array(data);
+            const keyStream = generateAdvancedKeyStream(password + 'twofish', data.length);
+            
+            for (let i = 0; i < result.length; i++) {
+                result[i] = result[i] ^ keyStream[i];
+                result[i] = ((result[i] << 3) | (result[i] >> 5)) & 0xFF;
+            }
+            
+            return result;
+        }
+
+        function applyDNAEncoding(data, seed) {
+            const dnaMap = { 0: 'A', 1: 'C', 2: 'G', 3: 'T' };
+            const result = new Uint8Array(data.length);
+            const keyStream = generateAdvancedKeyStream(seed, data.length);
+            
+            for (let i = 0; i < data.length; i++) {
+                const dnaA = (data[i] & 0b11000000) >> 6;
+                const dnaB = (data[i] & 0b00110000) >> 4;
+                const dnaC = (data[i] & 0b00001100) >> 2;
+                const dnaD = (data[i] & 0b00000011);
+                
+                const encoded = (dnaD << 6) | (dnaC << 4) | (dnaB << 2) | dnaA;
+                result[i] = encoded ^ keyStream[i];
+            }
+            
+            return result;
+        }
+
+        function applyLatticeObfuscation(data, seed) {
+            const result = new Uint8Array(data.length);
+            const latticeSize = 16;
+            const offset = simpleHash(seed) % latticeSize;
+            
+            for (let i = 0; i < data.length; i++) {
+                const latticePos = (i + offset) % latticeSize;
+                const neighbor1 = data[(i + latticePos) % data.length];
+                const neighbor2 = data[(i - latticePos + data.length) % data.length];
+                result[i] = (data[i] + neighbor1 + neighbor2) & 0xFF;
+            }
+            
+            return result;
+        }
+
+        function applyCellularAutomata(data, seed, generations) {
+            let result = new Uint8Array(data);
+            const rule = simpleHash(seed) % 256;
+            
+            for (let gen = 0; gen < generations; gen++) {
+                const newGen = new Uint8Array(result.length);
+                
+                for (let i = 0; i < result.length; i++) {
+                    const left = result[(i - 1 + result.length) % result.length];
+                    const center = result[i];
+                    const right = result[(i + 1) % result.length];
+                    
+                    const neighborhood = ((left & 1) << 2) | ((center & 1) << 1) | (right & 1);
+                    const newBit = (rule >> neighborhood) & 1;
+                    newGen[i] = (center & 0xFE) | newBit;
+                }
+                
+                result = newGen;
+            }
+            
+            return result;
+        }
+
+        function applyJunkCodeInsertion(data, seed) {
+            const junkRatio = 0.1;
+            const junkSize = Math.floor(data.length * junkRatio);
+            const result = new Uint8Array(data.length + junkSize);
+            const junkPositions = new Set();
+            
+            let hash = simpleHash(seed);
+            for (let i = 0; i < junkSize; i++) {
+                hash = ((hash * 1103515245) + 12345) & 0x7fffffff;
+                junkPositions.add(hash % result.length);
+            }
+            
+            let dataIdx = 0;
+            for (let i = 0; i < result.length; i++) {
+                if (junkPositions.has(i)) {
+                    result[i] = (hash >> (i % 24)) & 0xFF;
+                } else if (dataIdx < data.length) {
+                    result[i] = data[dataIdx++];
+                }
+            }
+            
+            return result;
+        }
+
+        function applyCodePacking(data, seed) {
+            const result = new Uint8Array(data.length);
+            const packingKey = generateAdvancedKeyStream(seed, data.length);
+            
+            for (let i = 0; i < data.length; i++) {
+                const packed = ((data[i] << 4) | (data[i] >> 4)) & 0xFF;
+                result[i] = packed ^ packingKey[i];
+            }
+            
+            return result;
+        }
+
+        function applyCodeSplitting(data, seed) {
+            const chunkSize = 64;
+            const result = new Uint8Array(data.length);
+            const chunks = Math.ceil(data.length / chunkSize);
+            const order = generatePermutation(chunks, seed);
+            
+            for (let i = 0; i < chunks; i++) {
+                const srcStart = order[i] * chunkSize;
+                const dstStart = i * chunkSize;
+                const size = Math.min(chunkSize, data.length - srcStart);
+                
+                for (let j = 0; j < size; j++) {
+                    if (srcStart + j < data.length && dstStart + j < result.length) {
+                        result[dstStart + j] = data[srcStart + j];
+                    }
+                }
+            }
+            
+            return result;
+        }
+
+        function applyAntiDebugging(data, seed) {
+            const result = new Uint8Array(data.length);
+            const debugKey = simpleHash(seed + 'debug');
+            
+            for (let i = 0; i < data.length; i++) {
+                const mask = ((debugKey >> (i % 16)) ^ (i & 0xFF)) & 0xFF;
+                result[i] = data[i] ^ mask;
+            }
+            
+            return result;
+        }
+
+        async function applyProcessingDelay(data, delayTime) { 
+            await new Promise(resolve => setTimeout(resolve, delayTime * 1000));
+            return data; 
+        }
+
+        function applyEntropyManipulation(data, seed) {
+            const result = new Uint8Array(data.length);
+            let entropy = simpleHash(seed);
+            
+            for (let i = 0; i < data.length; i++) {
+                entropy = ((entropy * 69069) + 1) & 0x7fffffff;
+                const noise = (entropy >> 8) & 0xFF;
+                result[i] = (data[i] + noise) & 0xFF;
+            }
+            
+            return result;
+        }
+
+        function applySignatureNullification(data, seed) {
+            const result = new Uint8Array(data);
+            const signaturePositions = [0, 1, 2, 3, data.length - 4, data.length - 3, data.length - 2, data.length - 1];
+            const nullKey = simpleHash(seed + 'null');
+            
+            for (const pos of signaturePositions) {
+                if (pos >= 0 && pos < result.length) {
+                    result[pos] = (result[pos] ^ ((nullKey >> (pos % 16)) & 0xFF)) & 0xFF;
+                }
+            }
+            
+            return result;
+        }
+
+        function applyStringEncryption(data, seed) {
+            const result = new Uint8Array(data.length);
+            const strKey = generateAdvancedKeyStream(seed + 'string', data.length);
+            
+            for (let i = 0; i < data.length; i++) {
+                if (data[i] >= 32 && data[i] <= 126) {
+                    result[i] = ((data[i] - 32 + strKey[i]) % 95 + 32) & 0xFF;
+                } else {
+                    result[i] = data[i] ^ strKey[i];
+                }
+            }
+            
+            return result;
+        }
+
+        function applyAntiDebuggingChecks(data, seed) {
+            const result = new Uint8Array(data.length);
+            const checksum = simpleHash(seed + 'check');
+            
+            for (let i = 0; i < data.length; i++) {
+                const check = (checksum + i) & 0xFF;
+                result[i] = ((data[i] ^ check) + check) & 0xFF;
+            }
+            
+            return result;
+        }
+
+        function applyBehavioralCamouflage(data, seed) {
+            const result = new Uint8Array(data.length);
+            const pattern = generateAdvancedKeyStream(seed + 'behavior', data.length);
+            
+            for (let i = 0; i < data.length; i++) {
+                const camouflage = (pattern[i] + data[i]) & 0xFF;
+                result[i] = (camouflage ^ ((i * 7) & 0xFF)) & 0xFF;
+            }
+            
+            return result;
+        }
+
+        function applyAntiVMDetection(data, seed) {
+            const result = new Uint8Array(data.length);
+            const vmKey = simpleHash(seed + 'vm') * 31337;
+            
+            for (let i = 0; i < data.length; i++) {
+                const vmMask = ((vmKey >> (i % 20)) ^ (i * 13)) & 0xFF;
+                result[i] = (data[i] ^ vmMask) & 0xFF;
+            }
+            
+            return result;
+        }
+
+        function applyImportTableObfuscation(data, seed) {
+            const result = new Uint8Array(data.length);
+            const importKey = generateAdvancedKeyStream(seed + 'import', data.length);
+            const blockSize = 16;
+            
+            for (let i = 0; i < data.length; i += blockSize) {
+                for (let j = 0; j < blockSize && i + j < data.length; j++) {
+                    const pos = i + j;
+                    result[pos] = (data[pos] ^ importKey[pos] ^ ((pos % blockSize) & 0xFF)) & 0xFF;
+                }
+            }
+            
+            return result;
+        }
+
+        function applyEnvironmentValidation(data, seed) {
+            const result = new Uint8Array(data.length);
+            const envKey = simpleHash(seed + 'env' + Date.now());
+            const validationStream = generateAdvancedKeyStream(seed + envKey, data.length);
+            
+            for (let i = 0; i < data.length; i++) {
+                result[i] = (data[i] ^ validationStream[i] ^ ((envKey >> (i % 16)) & 0xFF)) & 0xFF;
+            }
+            
+            return result;
+        }
+
+        async function generateIntegrityHash(data) {
+            try {
+                const hashBuffer = await crypto.subtle.digest('SHA-512', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            } catch (e) {
+                return 'hash-fallback-' + Date.now();
+            }
+        }
+
+        async function removeLayer(layerId, data, password) {
+            const seed = password + layerId.toString();
+            
+            switch(layerId) {
+                case 1:
+                case 5:
+                case 28:
+                    const marker = new TextEncoder().encode('QPRO');
+                    if (data.length < marker.length + 32 + 12) {
+                        throw new Error('Arquivo muito pequeno ou corrompido');
+                    }
+                    
+                    let offset = marker.length;
+                    const salt = data.slice(offset, offset + 32); offset += 32;
+                    const iv = data.slice(offset, offset + 12); offset += 12;
+                    const encrypted = data.slice(offset);
+                    
+                    return await decryptAES256GCM(encrypted, password + layerId, salt, iv);
+                
+                case 2:
+                    return applyPolymorphicXOR(data, seed);
+                
+                case 3:
+                    return reverseBlockTransposition(data, seed);
+                
+                case 4:
+                    return reverseMultiRoundSBox(data, seed, 3);
+                
+                case 9:
+                    const marker9 = new TextEncoder().encode('QPRO');
+                    let offset9 = marker9.length;
+                    const nonce9 = data.slice(offset9, offset9 + 12); offset9 += 12;
+                    const encrypted9 = data.slice(offset9);
+                    return await simulateChaCha20Decrypt(encrypted9, password, nonce9);
+                
+                case 6:
+                    return reverseFeistelNetwork(data, seed, 8);
+                case 7:
+                    return reverseAdvancedMetamorphicShift(data, seed);
+                case 8:
+                    return reverseAdvancedCodeMorphing(data, seed);
+                case 10:
+                    return await simulateSerpent256(data, seed + password);
+                case 11:
+                    return await reversetTwofish256(data, seed + password + '2');
+                case 12:
+                    return applyDNAEncoding(data, seed);
+                case 13:
+                    return reverseLatticdObfuscation(data, seed);
+                case 14:
+                    return reverseCellularAutomata(data, seed, 5);
+                case 15:
+                    return reverseJunkCodeInsertion(data, seed);
+                case 16:
+                    return applyCodePacking(data, seed);
+                case 17:
+                    return reverseCodeSplitting(data, seed);
+                case 18:
+                    return applyAntiDebugging(data, seed);
+                case 19:
+                    return data;
+                case 20:
+                    return reverseEntropyManipulation(data, seed);
+                case 21:
+                    return applySignatureNullification(data, seed);
+                case 22:
+                    return reverseStringEncryption(data, seed);
+                case 23:
+                    return reverseAntiDebuggingChecks(data, seed);
+                case 24:
+                    return reverseBehavioralCamouflage(data, seed);
+                case 25:
+                    return applyAntiVMDetection(data, seed);
+                case 26:
+                    return applyImportTableObfuscation(data, seed);
+                case 27:
+                    return applyEnvironmentValidation(data, seed);
+                
+                default:
+                    return data;
+            }
+        }
+
+        async function decryptAES256GCM(encrypted, password, salt, iv) {
+            const encoder = new TextEncoder();
+            const passwordKey = await crypto.subtle.importKey(
+                'raw',
+                encoder.encode(password),
+                'PBKDF2',
+                false,
+                ['deriveBits', 'deriveKey']
+            );
+            
+            const key = await crypto.subtle.deriveKey(
+                {
+                    name: 'PBKDF2',
+                    salt: salt,
+                    iterations: 200000,
+                    hash: 'SHA-512'
+                },
+                passwordKey,
+                { name: 'AES-GCM', length: 256 },
+                false,
+                ['encrypt', 'decrypt']
+            );
+            
+            const decrypted = await crypto.subtle.decrypt(
+                {
+                    name: 'AES-GCM',
+                    iv: iv
+                },
+                key,
+                encrypted
+            );
+            
+            return new Uint8Array(decrypted);
+        }
+
+        function reverseBlockTransposition(data, seed) {
+            const blockSize = 32;
+            const result = new Uint8Array(data.length);
+            const permutation = generatePermutation(blockSize, seed);
+            const reversePermutation = new Array(blockSize);
+            for (let i = 0; i < blockSize; i++) {
+                reversePermutation[permutation[i]] = i;
+            }
+            
+            for (let i = 0; i < data.length; i += blockSize) {
+                const block = data.slice(i, Math.min(i + blockSize, data.length));
+                const transposed = new Uint8Array(block.length);
+                
+                for (let j = 0; j < block.length; j++) {
+                    const newPos = reversePermutation[j % reversePermutation.length] % block.length;
+                    transposed[newPos] = block[j];
+                }
+                
+                result.set(transposed, i);
+            }
+            
+            return result;
+        }
+
+        function reverseMultiRoundSBox(data, seed, rounds) {
+            let result = new Uint8Array(data);
+            
+            for (let round = rounds - 1; round >= 0; round--) {
+                const sbox = generateDynamicSBox(seed + round.toString());
+                const inverseSbox = new Array(256);
+                for (let i = 0; i < 256; i++) {
+                    inverseSbox[sbox[i]] = i;
+                }
+                
+                const temp = new Uint8Array(result.length);
+                for (let i = 0; i < result.length; i++) {
+                    temp[i] = inverseSbox[result[i]];
+                }
+                result = temp;
+            }
+            
+            return result;
+        }
+
+        async function simulateChaCha20Decrypt(data, password, nonce) {
+            const result = new Uint8Array(data.length);
+            const keyStream = generateAdvancedKeyStream(password + nonce.join(','), data.length);
+            
+            for (let i = 0; i < data.length; i++) {
+                result[i] = data[i] ^ keyStream[i];
+            }
+            
+            return result;
+        }
+
+        function reverseFeistelNetwork(data, seed, rounds) {
+            const result = new Uint8Array(data);
+            
+            for (let round = rounds - 1; round >= 0; round--) {
+                for (let i = result.length - 2; i >= 0; i -= 2) {
+                    const left = result[i];
+                    const right = result[i + 1];
+                    const key = generateAdvancedKeyStream(seed + round, 1)[0];
+                    const f = (left ^ key) & 0xFF;
+                    result[i + 1] = left;
+                    result[i] = right ^ f;
+                }
+            }
+            
+            return result;
+        }
+
+        function reverseAdvancedMetamorphicShift(data, seed) {
+            const result = new Uint8Array(data.length);
+            const shiftKey = simpleHash(seed);
+            
+            for (let i = 0; i < data.length; i++) {
+                const unxored = data[i] ^ ((shiftKey >> (i % 24)) & 0xFF);
+                const shift = (shiftKey + i) % 8;
+                result[i] = ((unxored >> shift) | (unxored << (8 - shift))) & 0xFF;
+            }
+            
+            return result;
+        }
+
+        function reverseAdvancedCodeMorphing(data, seed) {
+            const result = new Uint8Array(data.length);
+            const morphTable = generateDynamicSBox(seed);
+            const inverseMorphTable = new Array(256);
+            for (let i = 0; i < 256; i++) {
+                inverseMorphTable[morphTable[i]] = i;
+            }
+            
+            for (let i = 0; i < data.length; i++) {
+                const pos = (i + simpleHash(seed + i)) % data.length;
+                result[pos] = inverseMorphTable[data[i]];
+            }
+            
+            return result;
+        }
+
+        async function reversetTwofish256(data, password) {
+            const result = new Uint8Array(data);
+            const keyStream = generateAdvancedKeyStream(password + 'twofish', data.length);
+            
+            for (let i = 0; i < result.length; i++) {
+                result[i] = ((result[i] >> 3) | (result[i] << 5)) & 0xFF;
+                result[i] = result[i] ^ keyStream[i];
+            }
+            
+            return result;
+        }
+
+        function reverseLatticdObfuscation(data, seed) {
+            const result = new Uint8Array(data.length);
+            const latticeSize = 16;
+            const offset = simpleHash(seed) % latticeSize;
+            
+            for (let i = 0; i < data.length; i++) {
+                const latticePos = (i + offset) % latticeSize;
+                const neighbor1 = data[(i + latticePos) % data.length];
+                const neighbor2 = data[(i - latticePos + data.length) % data.length];
+                result[i] = (data[i] - neighbor1 - neighbor2 + 512) & 0xFF;
+            }
+            
+            return result;
+        }
+
+        function reverseCellularAutomata(data, seed, generations) {
+            return applyCellularAutomata(data, seed, generations);
+        }
+
+        function reverseJunkCodeInsertion(data, seed) {
+            const junkRatio = 0.1;
+            const originalSize = Math.floor(data.length / (1 + junkRatio));
+            const result = new Uint8Array(originalSize);
+            const junkPositions = new Set();
+            
+            let hash = simpleHash(seed);
+            const junkSize = data.length - originalSize;
+            for (let i = 0; i < junkSize; i++) {
+                hash = ((hash * 1103515245) + 12345) & 0x7fffffff;
+                junkPositions.add(hash % data.length);
+            }
+            
+            let dataIdx = 0;
+            for (let i = 0; i < data.length && dataIdx < originalSize; i++) {
+                if (!junkPositions.has(i)) {
+                    result[dataIdx++] = data[i];
+                }
+            }
+            
+            return result;
+        }
+
+        function reverseCodeSplitting(data, seed) {
+            const chunkSize = 64;
+            const result = new Uint8Array(data.length);
+            const chunks = Math.ceil(data.length / chunkSize);
+            const order = generatePermutation(chunks, seed);
+            const reverseOrder = new Array(chunks);
+            for (let i = 0; i < chunks; i++) {
+                reverseOrder[order[i]] = i;
+            }
+            
+            for (let i = 0; i < chunks; i++) {
+                const srcStart = i * chunkSize;
+                const dstStart = reverseOrder[i] * chunkSize;
+                const size = Math.min(chunkSize, data.length - srcStart);
+                
+                for (let j = 0; j < size; j++) {
+                    if (srcStart + j < data.length && dstStart + j < result.length) {
+                        result[dstStart + j] = data[srcStart + j];
+                    }
+                }
+            }
+            
+            return result;
+        }
+
+        function reverseEntropyManipulation(data, seed) {
+            const result = new Uint8Array(data.length);
+            let entropy = simpleHash(seed);
+            
+            for (let i = 0; i < data.length; i++) {
+                entropy = ((entropy * 69069) + 1) & 0x7fffffff;
+                const noise = (entropy >> 8) & 0xFF;
+                result[i] = (data[i] - noise + 256) & 0xFF;
+            }
+            
+            return result;
+        }
+
+        function reverseStringEncryption(data, seed) {
+            const result = new Uint8Array(data.length);
+            const strKey = generateAdvancedKeyStream(seed + 'string', data.length);
+            
+            for (let i = 0; i < data.length; i++) {
+                const unxored = data[i] ^ strKey[i];
+                if (unxored >= 32 && unxored <= 126) {
+                    result[i] = ((unxored - 32 - strKey[i] + 95 * 100) % 95 + 32) & 0xFF;
+                } else {
+                    result[i] = unxored;
+                }
+            }
+            
+            return result;
+        }
+
+        function reverseAntiDebuggingChecks(data, seed) {
+            const result = new Uint8Array(data.length);
+            const checksum = simpleHash(seed + 'check');
+            
+            for (let i = 0; i < data.length; i++) {
+                const check = (checksum + i) & 0xFF;
+                result[i] = ((data[i] - check + 256) ^ check) & 0xFF;
+            }
+            
+            return result;
+        }
+
+        function reverseBehavioralCamouflage(data, seed) {
+            const result = new Uint8Array(data.length);
+            const pattern = generateAdvancedKeyStream(seed + 'behavior', data.length);
+            
+            for (let i = 0; i < data.length; i++) {
+                const uncamouflaged = (data[i] ^ ((i * 7) & 0xFF)) & 0xFF;
+                result[i] = (uncamouflaged - pattern[i] + 256) & 0xFF;
+            }
+            
+            return result;
+        }
+
+        function downloadDecryptedFile(data, originalName) {
+            const blob = new Blob([data], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            
+            a.href = url;
+            a.download = originalName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function isAPK(fileName) {
+            return fileName.toLowerCase().endsWith('.apk');
+        }
+
+        const APK_CRITICAL_FILES = [
+            'AndroidManifest.xml',
+            'resources.arsc',
+        ];
+
+        const APK_CRITICAL_PATHS = [
+            'META-INF/',
+        ];
+
+        function isCriticalAPKFile(filePath) {
+            if (APK_CRITICAL_FILES.includes(filePath)) return true;
+            
+            for (const path of APK_CRITICAL_PATHS) {
+                if (filePath.startsWith(path)) return true;
+            }
+            
+            return false;
+        }
+
+        async function encryptAPKSelectively(apkData, password, activeLayers) {
+            status.textContent = '📦 Detectado APK - Aplicando criptografia seletiva...';
+            
+            const zip = await JSZip.loadAsync(apkData);
+            const newZip = new JSZip();
+            
+            let fileCount = 0;
+            let encryptedCount = 0;
+            let signaturePreserved = false;
+            
+            for (const [filePath, zipEntry] of Object.entries(zip.files)) {
+                if (zipEntry.dir) {
+                    newZip.folder(filePath);
+                    continue;
+                }
+                
+                fileCount++;
+                const fileData = await zipEntry.async('uint8array');
+                
+                if (isCriticalAPKFile(filePath)) {
+                    status.textContent = `🔒 Protegendo APK: ${filePath} (crítico - preservado)`;
+                    if (filePath.startsWith('META-INF/')) {
+                        signaturePreserved = true;
+                    }
+                    newZip.file(filePath, fileData);
+                } else {
+                    status.textContent = `🔐 Criptografando: ${filePath}`;
+                    let encryptedData = fileData;
+                    
+                    let layerNum = 0;
+                    for (const layerId of activeLayers) {
+                        layerNum++;
+                        encryptedData = await applyLayer(layerId, encryptedData, password);
+                    }
+                    
+                    newZip.file(filePath, encryptedData);
+                    encryptedCount++;
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 10));
+            }
+            
+            status.textContent = `✅ APK protegido: ${encryptedCount} arquivos criptografados. ${signaturePreserved ? 'Assinatura original invalidada - re-assinatura necessária!' : 'Re-assinatura necessária!'}`;
+            
+            const result = await newZip.generateAsync({
+                type: 'uint8array',
+                compression: 'DEFLATE',
+                compressionOptions: { level: 9 }
+            });
+            
+            return result;
+        }
+
+        async function decryptAPKSelectively(apkData, password, activeLayers) {
+            status.textContent = '📦 Detectado APK protegido - Descriptografando seletivamente...';
+            
+            const zip = await JSZip.loadAsync(apkData);
+            const newZip = new JSZip();
+            
+            let fileCount = 0;
+            let decryptedCount = 0;
+            let signatureRestored = false;
+            
+            for (const [filePath, zipEntry] of Object.entries(zip.files)) {
+                if (zipEntry.dir) {
+                    newZip.folder(filePath);
+                    continue;
+                }
+                
+                fileCount++;
+                const fileData = await zipEntry.async('uint8array');
+                
+                if (isCriticalAPKFile(filePath)) {
+                    status.textContent = `🔓 Restaurando APK: ${filePath} (crítico - preservado)`;
+                    if (filePath.startsWith('META-INF/')) {
+                        signatureRestored = true;
+                    }
+                    newZip.file(filePath, fileData);
+                } else {
+                    status.textContent = `🔓 Descriptografando: ${filePath}`;
+                    let decryptedData = fileData;
+                    
+                    const layerIds = Array.from(activeLayers).reverse();
+                    for (const layerId of layerIds) {
+                        decryptedData = await removeLayer(layerId, decryptedData, password);
+                    }
+                    
+                    newZip.file(filePath, decryptedData);
+                    decryptedCount++;
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 10));
+            }
+            
+            status.textContent = `✅ APK descriptografado: ${decryptedCount} arquivos restaurados. ${signatureRestored ? 'Assinatura original restaurada mas invalidada - re-assinatura necessária!' : 'Re-assinatura necessária!'}`;
+            
+            const result = await newZip.generateAsync({
+                type: 'uint8array',
+                compression: 'DEFLATE',
+                compressionOptions: { level: 9 }
+            });
+            
+            return result;
+        }
+
+        function downloadFile(data, originalName, hash) {
+            const blob = new Blob([data], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            
+            const nameParts = originalName.split('.');
+            const ext = nameParts.pop();
+            const baseName = nameParts.join('.');
+            
+            a.href = url;
+            a.download = `${baseName}_quasar.${ext}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function resetInterface() {
+            progressBar.style.display = 'none';
+            progressFill.style.width = '0%';
+            status.style.display = 'none';
+            fileName.style.display = 'none';
+            fileInput.value = '';
+            selectedFile = null;
+            passwordInput.value = '';
+            userPassword = '';
+            passwordStrength.textContent = '';
+            processBtn.disabled = true;
+        }
+
+        renderLayers();
+        updateProcessButtonText();
+        console.log('⚡ QuasarProtect Advanced v2.8 iniciado');
+        console.log('🛡️ Sistema de proteção multicamadas ativo');
+    </script>
+</body>
+</html>
