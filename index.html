@@ -348,6 +348,62 @@
             background: #4f46e5;
             color: white;
         }
+
+        .apk-analysis-panel {
+            display: none;
+            background: #f0f9ff;
+            border: 2px solid #0ea5e9;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .apk-analysis-panel h3 {
+            color: #0c4a6e;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .apk-file-list {
+            background: white;
+            border-radius: 6px;
+            padding: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 12px;
+            margin: 10px 0;
+        }
+
+        .apk-file-item {
+            padding: 4px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .apk-file-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-safe {
+            color: #059669;
+            font-weight: bold;
+        }
+
+        .file-critical {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .apk-summary {
+            background: #dbeafe;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .apk-summary strong {
+            color: #1e40af;
+        }
     </style>
 </head>
 <body>
@@ -396,52 +452,35 @@
             <div class="file-name" id="fileName"></div>
         </div>
 
-        <div id="apkAnalysisPanel" style="display: none; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 8px; padding: 20px; margin: 15px 0;">
-            <h3 style="color: #92400e; margin-top: 0;">⚠️ APK Android Detectado - Análise Técnica</h3>
+        <div id="apkAnalysisPanel" class="apk-analysis-panel">
+            <h3>📱 Análise do APK Android</h3>
             
-            <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0;">
-                <h4 style="color: #1e40af; margin-top: 0;">🔍 Análise de Compatibilidade</h4>
-                <p style="margin: 10px 0;"><strong>Realidade Técnica:</strong> Para que um APK funcione no Android, o sistema precisa ler o código compilado (classes.dex) diretamente. Criptografar este arquivo impede a execução do app.</p>
-                
-                <div style="background: #fee2e2; padding: 12px; border-radius: 4px; border-left: 4px solid #dc2626; margin: 10px 0;">
-                    <strong style="color: #991b1b;">❌ Limitação Fundamental:</strong><br>
-                    <span style="color: #7f1d1d;">Nenhuma das 28 camadas pode ser aplicada mantendo o APK totalmente funcional sem ferramentas profissionais de reempacotamento.</span>
-                </div>
-
-                <p style="margin: 10px 0;"><strong>Por que isso acontece?</strong></p>
-                <ul style="margin: 5px 0 5px 20px; color: #4b5563;">
-                    <li>Android precisa ler <code>classes.dex</code> para carregar o app</li>
-                    <li>Criptografar <code>classes.dex</code> torna o arquivo ilegível para o sistema</li>
-                    <li>Resultado: APK pode instalar, mas <strong>fecha imediatamente</strong> ao abrir</li>
-                    <li>Ícone pode não aparecer se recursos visuais forem criptografados</li>
-                </ul>
+            <div class="apk-summary" id="apkSummary">
+                <strong>Processando análise...</strong>
             </div>
 
-            <div style="background: white; padding: 15px; border-radius: 6px; margin: 10px 0;">
-                <h4 style="color: #059669; margin-top: 0;">💡 Alternativas Profissionais</h4>
-                <p style="margin: 5px 0;">Para proteção real de APKs Android, use ferramentas especializadas:</p>
-                <ul style="margin: 5px 0 5px 20px; color: #4b5563;">
-                    <li><strong>ProGuard</strong> - Ofuscação gratuita (inclusa no Android Studio)</li>
-                    <li><strong>R8</strong> - Otimizador e ofuscador moderno do Google</li>
-                    <li><strong>DexGuard</strong> - Proteção comercial avançada com runtime encryption</li>
-                    <li><strong>App Shielding</strong> - Soluções enterprise com anti-tamper</li>
-                </ul>
+            <div>
+                <h4 style="color: #059669; font-size: 13px; margin: 10px 0;">✅ Arquivos que serão CRIPTOGRAFADOS (Seguros):</h4>
+                <div class="apk-file-list" id="apkSafeFiles">
+                    <em>Analisando...</em>
+                </div>
             </div>
 
-            <div style="background: #dbeafe; padding: 15px; border-radius: 6px; margin: 10px 0; border: 2px solid #3b82f6;">
-                <h4 style="color: #1e40af; margin-top: 0;">🧪 Modo Demonstração (Opcional)</h4>
-                <p style="margin: 5px 0; color: #1e3a8a;">Se você deseja criptografar mesmo assim para fins de teste ou demonstração:</p>
-                
-                <label style="display: flex; align-items: center; margin: 15px 0; cursor: pointer;">
-                    <input type="checkbox" id="apkDemoMode" style="width: 20px; height: 20px; margin-right: 10px;">
-                    <span style="color: #1e3a8a;"><strong>Entendo que o APK NÃO funcionará após a criptografia e aceito prosseguir em modo demonstração</strong></span>
-                </label>
-                
-                <div style="background: #fef2f2; padding: 10px; border-radius: 4px; border-left: 4px solid #ef4444; margin-top: 10px;">
-                    <small style="color: #991b1b;">
-                        ⚠️ <strong>Aviso Legal:</strong> Ao ativar este modo, você reconhece que o APK resultante poderá instalar mas NÃO abrirá ou funcionará. Isto é apenas para fins educacionais ou de demonstração.
-                    </small>
+            <div>
+                <h4 style="color: #dc2626; font-size: 13px; margin: 10px 0;">🔒 Arquivos que serão PRESERVADOS (Críticos para funcionamento):</h4>
+                <div class="apk-file-list" id="apkCriticalFiles">
+                    <em>Analisando...</em>
                 </div>
+            </div>
+
+            <div style="background: #d1fae5; padding: 12px; border-radius: 6px; margin: 10px 0; border-left: 4px solid #059669;">
+                <strong style="color: #065f46;">✅ APK funcionará normalmente após criptografia!</strong><br>
+                <small style="color: #047857;">Apenas arquivos seguros serão protegidos. Código, recursos e bibliotecas serão preservados.</small>
+            </div>
+
+            <div style="background: #fef3c7; padding: 12px; border-radius: 6px; margin: 10px 0; border-left: 4px solid #f59e0b;">
+                <strong style="color: #92400e;">⚠️ Importante:</strong><br>
+                <small style="color: #78350f;">Após criptografia, você deve RE-ASSINAR o APK usando apksigner ou jarsigner antes de instalá-lo.</small>
             </div>
         </div>
 
@@ -518,44 +557,12 @@
         const encryptModeBtn = document.getElementById('encryptModeBtn');
         const decryptModeBtn = document.getElementById('decryptModeBtn');
         const apkAnalysisPanel = document.getElementById('apkAnalysisPanel');
-        const apkDemoMode = document.getElementById('apkDemoMode');
         
         let selectedFile = null;
         let userPassword = '';
         let activeLayers = new Set();
         let currentMode = 'encrypt';
         let isAPKFile = false;
-        let apkDemoModeEnabled = false;
-
-        function resetAPKState() {
-            apkAnalysisPanel.style.display = 'none';
-            apkDemoMode.checked = false;
-            isAPKFile = false;
-            apkDemoModeEnabled = false;
-            
-            activeLayers.clear();
-            layers.forEach(layer => {
-                const checkbox = document.getElementById(`layer-${layer.id}`);
-                if (checkbox) {
-                    checkbox.disabled = false;
-                    checkbox.checked = layer.recommended;
-                    if (layer.recommended) {
-                        activeLayers.add(layer.id);
-                    }
-                }
-            });
-        }
-
-        function disableLayersForAPK() {
-            activeLayers.clear();
-            layers.forEach(layer => {
-                const checkbox = document.getElementById(`layer-${layer.id}`);
-                if (checkbox) {
-                    checkbox.checked = false;
-                    checkbox.disabled = true;
-                }
-            });
-        }
 
         function updateProcessButtonText() {
             if (currentMode === 'encrypt') {
@@ -581,11 +588,11 @@
                 if (selectedFile && isAPK(selectedFile.name)) {
                     apkAnalysisPanel.style.display = 'block';
                     isAPKFile = true;
-                    apkDemoMode.checked = false;
-                    apkDemoModeEnabled = false;
-                    disableLayersForAPK();
+                    analyzeAPK(selectedFile);
+                    selectRecommended();
                 } else if (selectedFile) {
-                    resetAPKState();
+                    apkAnalysisPanel.style.display = 'none';
+                    isAPKFile = false;
                 }
             } else {
                 encryptModeBtn.style.background = '#e5e7eb';
@@ -595,7 +602,8 @@
                 fileInputLabel.textContent = '📁 Clique aqui para selecionar arquivo criptografado (_quasar)';
                 layersSection.style.display = 'none';
                 status.textContent = 'Modo Descriptografia: Selecione um arquivo _quasar e digite a senha';
-                resetAPKState();
+                apkAnalysisPanel.style.display = 'none';
+                isAPKFile = false;
             }
             updateProcessButtonText();
             updateStatus();
@@ -687,7 +695,71 @@
             updateStatus();
         });
 
-        fileInput.addEventListener('change', (e) => {
+        async function analyzeAPK(file) {
+            const apkSummary = document.getElementById('apkSummary');
+            const apkSafeFiles = document.getElementById('apkSafeFiles');
+            const apkCriticalFiles = document.getElementById('apkCriticalFiles');
+            
+            try {
+                apkSummary.innerHTML = '<strong>📊 Analisando APK...</strong>';
+                apkSafeFiles.innerHTML = '<em>Analisando...</em>';
+                apkCriticalFiles.innerHTML = '<em>Analisando...</em>';
+                
+                const arrayBuffer = await file.arrayBuffer();
+                const zip = await JSZip.loadAsync(arrayBuffer);
+                
+                const safeFiles = [];
+                const criticalFiles = [];
+                let totalSize = 0;
+                let safeSize = 0;
+                
+                for (const [filePath, zipEntry] of Object.entries(zip.files)) {
+                    if (zipEntry.dir) continue;
+                    
+                    const fileData = await zipEntry.async('uint8array');
+                    totalSize += fileData.length;
+                    
+                    if (isSafeAPKFile(filePath)) {
+                        safeFiles.push({ path: filePath, size: fileData.length });
+                        safeSize += fileData.length;
+                    } else if (isCriticalAPKFile(filePath)) {
+                        criticalFiles.push({ path: filePath, size: fileData.length });
+                    } else {
+                        criticalFiles.push({ path: filePath, size: fileData.length });
+                    }
+                }
+                
+                apkSummary.innerHTML = `
+                    <strong>Total de arquivos:</strong> ${safeFiles.length + criticalFiles.length}<br>
+                    <strong class="file-safe">Serão criptografados:</strong> ${safeFiles.length} arquivos (${(safeSize / 1024).toFixed(2)} KB)<br>
+                    <strong class="file-critical">Serão preservados:</strong> ${criticalFiles.length} arquivos (${((totalSize - safeSize) / 1024).toFixed(2)} KB)
+                `;
+                
+                if (safeFiles.length > 0) {
+                    apkSafeFiles.innerHTML = safeFiles.map(f => 
+                        `<div class="apk-file-item"><span class="file-safe">✓</span> ${f.path} <small>(${(f.size / 1024).toFixed(1)} KB)</small></div>`
+                    ).join('');
+                } else {
+                    apkSafeFiles.innerHTML = '<em style="color: #666;">Nenhum arquivo seguro encontrado (nenhum arquivo em assets/)</em>';
+                }
+                
+                const displayCritical = criticalFiles.slice(0, 50);
+                apkCriticalFiles.innerHTML = displayCritical.map(f => 
+                    `<div class="apk-file-item"><span class="file-critical">🔒</span> ${f.path} <small>(${(f.size / 1024).toFixed(1)} KB)</small></div>`
+                ).join('');
+                
+                if (criticalFiles.length > 50) {
+                    apkCriticalFiles.innerHTML += `<div style="padding: 8px; color: #666; font-style: italic;">... e mais ${criticalFiles.length - 50} arquivos críticos</div>`;
+                }
+                
+            } catch (error) {
+                apkSummary.innerHTML = '<strong style="color: #dc2626;">❌ Erro ao analisar APK</strong>';
+                apkSafeFiles.innerHTML = `<em style="color: #dc2626;">${error.message}</em>`;
+                apkCriticalFiles.innerHTML = '';
+            }
+        }
+
+        fileInput.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (file) {
                 selectedFile = file;
@@ -698,48 +770,18 @@
                 
                 if (isAPKFile && currentMode === 'encrypt') {
                     apkAnalysisPanel.style.display = 'block';
-                    apkDemoMode.checked = false;
-                    apkDemoModeEnabled = false;
-                    disableLayersForAPK();
+                    await analyzeAPK(file);
+                    selectRecommended();
                     
                     status.className = 'status info';
-                    status.textContent = '⚠️ APK detectado - Leia a análise técnica abaixo';
+                    status.textContent = '📱 APK analisado - apenas arquivos seguros serão criptografados!';
                 } else {
-                    resetAPKState();
+                    apkAnalysisPanel.style.display = 'none';
                 }
                 
                 updateProcessButtonText();
                 updateStatus();
             }
-        });
-
-        apkDemoMode.addEventListener('change', (e) => {
-            apkDemoModeEnabled = e.target.checked;
-            
-            if (apkDemoModeEnabled) {
-                activeLayers.clear();
-                layers.forEach(layer => {
-                    const checkbox = document.getElementById(`layer-${layer.id}`);
-                    if (checkbox) {
-                        checkbox.disabled = false;
-                        if (layer.recommended) {
-                            checkbox.checked = true;
-                            activeLayers.add(layer.id);
-                        } else {
-                            checkbox.checked = false;
-                        }
-                    }
-                });
-                status.className = 'status info';
-                status.textContent = '⚠️ Modo demonstração ativado - APK NÃO funcionará após criptografia';
-            } else {
-                disableLayersForAPK();
-                status.className = 'status info';
-                status.textContent = '⚠️ Selecione o modo demonstração para prosseguir ou escolha outro arquivo';
-            }
-            
-            updateProcessButtonText();
-            updateStatus();
         });
 
         function updateStatus() {
@@ -752,17 +794,11 @@
                     processBtn.disabled = true;
                 }
             } else {
-                if (isAPKFile && !apkDemoModeEnabled) {
-                    processBtn.disabled = true;
-                    if (!status.textContent.includes('APK detectado') && !status.textContent.includes('modo demonstração')) {
-                        status.className = 'status info';
-                        status.textContent = '⚠️ Marque o modo demonstração abaixo ou escolha outro arquivo';
-                    }
-                } else if (selectedFile && userPassword.length >= 8 && activeLayers.size > 0) {
+                if (selectedFile && userPassword.length >= 8 && activeLayers.size > 0) {
                     processBtn.disabled = false;
                     status.className = 'status info';
-                    if (isAPKFile && apkDemoModeEnabled) {
-                        status.textContent = `⚠️ MODO DEMO: APK NÃO funcionará! ${activeLayers.size} camadas selecionadas`;
+                    if (isAPKFile) {
+                        status.textContent = `✅ APK pronto! ${activeLayers.size} camadas selecionadas (apenas assets/ serão criptografados)`;
                     } else {
                         status.textContent = `✅ Pronto! ${activeLayers.size} camadas selecionadas`;
                     }
@@ -774,7 +810,7 @@
                     } else if (userPassword.length < 8) {
                         status.className = 'status info';
                         status.textContent = 'Aguardando senha válida (mín. 8 caracteres)...';
-                    } else if (activeLayers.size === 0 && !(isAPKFile && !apkDemoModeEnabled)) {
+                    } else if (activeLayers.size === 0) {
                         status.className = 'status info';
                         status.textContent = 'Selecione pelo menos uma camada de proteção...';
                     }
@@ -1847,6 +1883,14 @@
 
         const APK_CRITICAL_PATHS = [
             'META-INF/',
+            'classes',
+            'lib/',
+            'res/',
+            'kotlin/',
+        ];
+
+        const APK_SAFE_PATHS = [
+            'assets/',
         ];
 
         function isCriticalAPKFile(filePath) {
@@ -1856,17 +1900,27 @@
                 if (filePath.startsWith(path)) return true;
             }
             
+            if (filePath.startsWith('classes') && filePath.endsWith('.dex')) return true;
+            
+            return false;
+        }
+
+        function isSafeAPKFile(filePath) {
+            for (const path of APK_SAFE_PATHS) {
+                if (filePath.startsWith(path)) return true;
+            }
             return false;
         }
 
         async function encryptAPKSelectively(apkData, password, activeLayers) {
-            status.textContent = '📦 Detectado APK - Aplicando criptografia seletiva...';
+            status.textContent = '📦 APK detectado - Aplicando criptografia INTELIGENTE...';
             
             const zip = await JSZip.loadAsync(apkData);
             const newZip = new JSZip();
             
             let fileCount = 0;
             let encryptedCount = 0;
+            let preservedCount = 0;
             let signaturePreserved = false;
             
             for (const [filePath, zipEntry] of Object.entries(zip.files)) {
@@ -1878,30 +1932,29 @@
                 fileCount++;
                 const fileData = await zipEntry.async('uint8array');
                 
-                if (isCriticalAPKFile(filePath)) {
-                    status.textContent = `🔒 Protegendo APK: ${filePath} (crítico - preservado)`;
-                    if (filePath.startsWith('META-INF/')) {
-                        signaturePreserved = true;
-                    }
-                    newZip.file(filePath, fileData);
-                } else {
-                    status.textContent = `🔐 Criptografando: ${filePath}`;
+                if (isSafeAPKFile(filePath)) {
+                    status.textContent = `🔐 Criptografando seguro: ${filePath}`;
                     let encryptedData = fileData;
                     
-                    let layerNum = 0;
                     for (const layerId of activeLayers) {
-                        layerNum++;
                         encryptedData = await applyLayer(layerId, encryptedData, password);
                     }
                     
                     newZip.file(filePath, encryptedData);
                     encryptedCount++;
+                } else {
+                    status.textContent = `🔒 Preservando crítico: ${filePath}`;
+                    if (filePath.startsWith('META-INF/')) {
+                        signaturePreserved = true;
+                    }
+                    newZip.file(filePath, fileData);
+                    preservedCount++;
                 }
                 
-                await new Promise(resolve => setTimeout(resolve, 10));
+                await new Promise(resolve => setTimeout(resolve, 5));
             }
             
-            status.textContent = `✅ APK protegido: ${encryptedCount} arquivos criptografados. ${signaturePreserved ? 'Assinatura original invalidada - re-assinatura necessária!' : 'Re-assinatura necessária!'}`;
+            status.textContent = `✅ APK protegido: ${encryptedCount} arquivos criptografados, ${preservedCount} preservados! Re-assinatura necessária.`;
             
             const result = await newZip.generateAsync({
                 type: 'uint8array',
@@ -1909,18 +1962,61 @@
                 compressionOptions: { level: 9 }
             });
             
+            await validateAPK(result);
+            
             return result;
         }
 
+        async function validateAPK(apkData) {
+            try {
+                status.textContent = '🔍 Validando integridade do APK...';
+                
+                const zip = await JSZip.loadAsync(apkData);
+                
+                const requiredFiles = ['AndroidManifest.xml', 'resources.arsc'];
+                const missingFiles = [];
+                
+                for (const required of requiredFiles) {
+                    if (!zip.files[required]) {
+                        missingFiles.push(required);
+                    }
+                }
+                
+                let hasDex = false;
+                for (const filePath in zip.files) {
+                    if (filePath.match(/classes.*\.dex$/)) {
+                        hasDex = true;
+                        break;
+                    }
+                }
+                
+                if (!hasDex) {
+                    missingFiles.push('classes*.dex');
+                }
+                
+                if (missingFiles.length > 0) {
+                    status.textContent = `⚠️ Validação: arquivos críticos faltando - ${missingFiles.join(', ')}`;
+                    return false;
+                }
+                
+                status.textContent = '✅ Validação OK: APK mantém estrutura funcional!';
+                return true;
+                
+            } catch (error) {
+                status.textContent = `⚠️ Erro na validação: ${error.message}`;
+                return false;
+            }
+        }
+
         async function decryptAPKSelectively(apkData, password, activeLayers) {
-            status.textContent = '📦 Detectado APK protegido - Descriptografando seletivamente...';
+            status.textContent = '📦 APK protegido detectado - Descriptografando INTELIGENTEMENTE...';
             
             const zip = await JSZip.loadAsync(apkData);
             const newZip = new JSZip();
             
             let fileCount = 0;
             let decryptedCount = 0;
-            let signatureRestored = false;
+            let preservedCount = 0;
             
             for (const [filePath, zipEntry] of Object.entries(zip.files)) {
                 if (zipEntry.dir) {
@@ -1931,13 +2027,7 @@
                 fileCount++;
                 const fileData = await zipEntry.async('uint8array');
                 
-                if (isCriticalAPKFile(filePath)) {
-                    status.textContent = `🔓 Restaurando APK: ${filePath} (crítico - preservado)`;
-                    if (filePath.startsWith('META-INF/')) {
-                        signatureRestored = true;
-                    }
-                    newZip.file(filePath, fileData);
-                } else {
+                if (isSafeAPKFile(filePath)) {
                     status.textContent = `🔓 Descriptografando: ${filePath}`;
                     let decryptedData = fileData;
                     
@@ -1948,18 +2038,24 @@
                     
                     newZip.file(filePath, decryptedData);
                     decryptedCount++;
+                } else {
+                    status.textContent = `🔒 Preservando: ${filePath}`;
+                    newZip.file(filePath, fileData);
+                    preservedCount++;
                 }
                 
-                await new Promise(resolve => setTimeout(resolve, 10));
+                await new Promise(resolve => setTimeout(resolve, 5));
             }
             
-            status.textContent = `✅ APK descriptografado: ${decryptedCount} arquivos restaurados. ${signatureRestored ? 'Assinatura original restaurada mas invalidada - re-assinatura necessária!' : 'Re-assinatura necessária!'}`;
+            status.textContent = `✅ APK descriptografado: ${decryptedCount} arquivos restaurados, ${preservedCount} preservados!`;
             
             const result = await newZip.generateAsync({
                 type: 'uint8array',
                 compression: 'DEFLATE',
                 compressionOptions: { level: 9 }
             });
+            
+            await validateAPK(result);
             
             return result;
         }

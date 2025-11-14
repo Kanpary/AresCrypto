@@ -19,6 +19,7 @@ class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 if __name__ == "__main__":
     handler = MyHTTPRequestHandler
     
+    socketserver.TCPServer.allow_reuse_address = True
     with socketserver.TCPServer(("0.0.0.0", PORT), handler) as httpd:
         print(f"🚀 Server running at http://0.0.0.0:{PORT}")
         print(f"📁 Serving directory: {os.path.abspath(DIRECTORY)}")
